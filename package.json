@@ -8,7 +8,8 @@
     "dev": "nodemon src/app.ts",
     "build": "tsc",
     "watch-ts": "tsc -w",
-    "build-client": "tsc public/js/chat.ts --outDir public/js --target ES6 --module ES6"
+    "build-client": "tsc -p tsconfig.client.json",
+    "build-all": "npm run build && npm run build-client"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
