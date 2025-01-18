@@ -13,6 +13,11 @@ export class ChatService {
 
     async generateResponse(userMessage: string): Promise<ChatResponse> {
         try {
+            if (!process.env.OPENAI_API_KEY) {
+                console.error('OpenAI API key is not set');
+                throw new Error('OpenAI API key is not configured');
+            }
+
             const completion = await this.openai.createChatCompletion({
                 model: "gpt-3.5-turbo",
                 messages: [
@@ -43,9 +48,13 @@ export class ChatService {
                 max_tokens: 200
             });
 
+            if (!completion.data.choices[0].message) {
+                throw new Error('No response from OpenAI');
+            }
+
             const response: ChatMessage = {
                 id: Date.now().toString(),
-                content: completion.data.choices[0].message?.content || '',
+                content: completion.data.choices[0].message.content || '',
                 timestamp: new Date(),
                 sender: 'ai',
                 avatar: '/images/agentimg.png'
@@ -55,8 +64,11 @@ export class ChatService {
                 message: response,
                 status: 'success'
             };
-        } catch (error) {
-            console.error('Error generating AI response:', error);
+        } catch (error: any) {
+            console.error('Error in generateResponse:', error);
+            if (error.response) {
+                console.error('OpenAI API Error:', error.response.data);
+            }
             throw error;
         }
     }

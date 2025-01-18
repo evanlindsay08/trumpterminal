@@ -7,26 +7,37 @@ interface ChatMessage {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Chat script loaded');
+    
     const chatInput = document.getElementById('chat-input') as HTMLInputElement;
     const sendButton = document.getElementById('send-button') as HTMLButtonElement;
     const chatMessages = document.getElementById('chat-messages') as HTMLDivElement;
 
+    if (!chatInput || !sendButton || !chatMessages) {
+        console.error('Could not find required elements');
+        return;
+    }
+
     async function sendMessage() {
+        console.log('Sending message...');
         const message = chatInput.value.trim();
         if (!message) return;
 
-        addMessageToChat({
+        // Add user message to chat
+        const userMessage: ChatMessage = {
             id: Date.now().toString(),
             content: message,
             timestamp: new Date(),
             sender: 'user'
-        });
+        };
 
+        addMessageToChat(userMessage);
         chatInput.value = '';
         chatInput.disabled = true;
         sendButton.disabled = true;
 
         try {
+            console.log('Fetching response...');
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: {
@@ -35,7 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ message })
             });
 
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
             const data = await response.json();
+            console.log('Response received:', data);
             addMessageToChat(data.message);
         } catch (error) {
             console.error('Error sending message:', error);
@@ -54,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function addMessageToChat(message: ChatMessage) {
+        console.log('Adding message to chat:', message);
         const messageElement = document.createElement('div');
         messageElement.classList.add('chat-message', message.sender);
         
@@ -75,13 +92,20 @@ document.addEventListener('DOMContentLoaded', () => {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Event Listeners
-    sendButton.onclick = sendMessage;
-    chatInput.onkeypress = (e) => {
+    // Direct event handler assignments
+    sendButton.addEventListener('click', () => {
+        console.log('Send button clicked');
+        sendMessage();
+    });
+
+    chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
+            console.log('Enter key pressed');
             sendMessage();
         }
-    };
+    });
+
+    console.log('Event listeners attached');
 });
 
 function copyAddress() {
