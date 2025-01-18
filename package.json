@@ -6,10 +6,10 @@
   "scripts": {
     "start": "node dist/app.js",
     "dev": "nodemon src/app.ts",
-    "build": "tsc",
-    "watch-ts": "tsc -w",
+    "build": "tsc && npm run build-client",
+    "postinstall": "npm run build",
     "build-client": "tsc -p tsconfig.client.json",
-    "build-all": "npm run build && npm run build-client"
+    "watch-ts": "tsc -w"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
