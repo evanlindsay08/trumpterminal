@@ -1,0 +1,25 @@
+{
+  "name": "trump-terminal",
+  "version": "1.0.0",
+  "description": "Trump Terminal - AI Chat Experience",
+  "main": "dist/app.js",
+  "scripts": {
+    "start": "node dist/app.js",
+    "dev": "nodemon src/app.ts",
+    "build": "tsc",
+    "watch-ts": "tsc -w",
+    "build-client": "tsc public/js/chat.ts --outDir public/js --target ES6 --module ES6"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "openai": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^18.15.11",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+} 
