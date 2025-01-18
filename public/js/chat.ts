@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 content: 'Sorry, there was an error processing your message.',
                 timestamp: new Date(),
                 sender: 'ai',
-                avatar: '/images/trump-pose.png'
+                avatar: '/images/agentimg.png'
             });
         } finally {
             chatInput.disabled = false;

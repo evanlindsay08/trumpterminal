@@ -48,7 +48,7 @@ export class ChatService {
                 content: completion.data.choices[0].message?.content || '',
                 timestamp: new Date(),
                 sender: 'ai',
-                avatar: '/images/trump-pose.png'
+                avatar: '/images/agentimg.png'
             };
 
             return {
