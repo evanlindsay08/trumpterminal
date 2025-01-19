@@ -1,7 +1,7 @@
 {
-  "name": "trump-terminal",
+  "name": "official-trump-terminal",
   "version": "1.0.0",
-  "description": "Trump Terminal - AI Chat Experience",
+  "description": "Official Trump Terminal - AI Chat Experience",
   "main": "dist/app.js",
   "scripts": {
     "start": "node dist/app.js",
